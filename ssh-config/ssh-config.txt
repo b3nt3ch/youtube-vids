@@ -1,0 +1,30 @@
+**********************
+switch
+**********************
+
+enable
+conf t
+hostname SW1
+ip domain-name walid.local
+username walid secret cisco
+crypto key generate rsa
+line vty 0 15
+login local transport input ssh
+exit
+ip ssh version 2
+
+
+**********************
+router
+**********************
+
+enable
+conf t
+hostname R1
+ip domain-name walid.local
+username walid secret cisco
+crypto key generate rsa
+line vty 0 4
+login local transport input ssh
+exit
+ip ssh version 2
