@@ -1,0 +1,70 @@
+############## Layer 2 Switch Configuration ##############
+
+## Creation of VLANs
+
+enable
+config t
+vlan 100
+vlan 200
+exit
+
+## Assign the PCs to respective VLANS
+
+interface gigabitethernet 0/1
+switchport mode access
+switchport access vlan 100
+
+interface gigabitethernet 0/2
+switchport mode access
+switchport access vlan 200
+
+interface gigabitethernet 0/0
+switchport trunk encapsulation dot1q
+switchport mode trunk
+
+############## Layer 3 Switch Configuration ##############
+
+## Creation of VLANs
+
+enable
+config t
+vlan 100
+vlan 200
+exit
+interface gigabitethernet 0/0
+switchport trunk encapsulation dot1q
+switchport mode trunk
+exit
+
+## Inter-VLAN Configuration
+
+interface vlan 100
+ip address 10.0.100.254 255.255.255.0
+no shutdown
+interface vlan 200
+ip address 10.0.200.254 255.255.255.0
+no shutdown
+
+## DHCP server configuration
+
+enable
+conf t
+ip dhcp pool V-100
+network 10.0.100.0 /24
+default-router 10.0.100.254
+dns-server 8.8.8.8 4.2.2.2
+exit
+ip dhcp excluded-addresse 10.0.100.254
+
+ip dhcp pool V-200
+network 10.0.200.0 /24
+default-router 10.0.200.254
+dns-server 8.8.8.8 4.2.2.2
+exit
+ip dhcp excluded-addresse 10.0.200.254
+
+## Verify DHCP Configuration
+
+enable
+show ip dhcp binding
+show ip dhcp server statistics
