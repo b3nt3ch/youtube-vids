@@ -1,0 +1,44 @@
+############## Layer 2 Switch Configuration ##############
+
+
+## DHCP server configuration
+
+enable
+conf t
+ip dhcp pool private
+network 10.0.0.0 /24
+default-router 10.0.0.254
+dns-server 8.8.8.8 4.2.2.2
+exit
+ip dhcp excluded-addresse 10.0.0.254
+exit
+
+## Verify DHCP Configuration
+
+enable
+show ip dhcp binding
+show ip dhcp server statistics
+
+## ISP Router Configuration
+
+enable
+conf t
+interface loopback 0
+ip address 8.8.8.8 255.255.255.255
+no shut
+
+## ISP Router Configuration
+
+enable
+conf t
+ip route 0.0.0.0 0.0.0.0 interface gigabitethernet 0/0
+
+## Static NAT Configuration
+
+enavle
+conf t
+ip nat inside source static 10.0.0.2 197.9.18.1
+interface gigabitethernet 0/0
+ip nat outside
+interface gigabitethernet 0/1
+ip nat inside
