@@ -1,0 +1,52 @@
+############## PCs Configuration ##############
+
+## the dfault credentials:
+USERNAME : cisco
+PASSWORD : cisco
+
+## PC-1
+sudo ip addr add 10.0.100.1/24 dev eth0
+
+
+## PC-2
+sudo ip addr add 10.0.100.2/24 dev eth0
+
+
+## PC-3
+sudo ip addr add 10.0.100.3/24 dev eth0
+
+
+## PC-4
+sudo ip addr add 10.0.100.4/24 dev eth0
+
+
+## PC-5
+sudo ip addr add 10.0.100.5/24 dev eth0
+
+############## Switch Configuration ##############
+
+## Port-security:
+enable
+config t
+interface gigabitethernet 0/1
+switchport mode access
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+switchport port-security violation shutdown
+
+interface gigabitethernet 0/
+switchport mode access
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+switchport port-security violation protect
+
+interface gigabitethernet 0/1
+switchport mode access
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+switchport port-security violation restrict
+
+## show port-security interface:
+
+show port-security interface gigabitethernet 0/1
+
